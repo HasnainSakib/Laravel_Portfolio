@@ -16,7 +16,12 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })
-    ->withStoragePath(file_exists('/tmp') ? '/tmp/storage' : dirname(__DIR__).'/storage')
+    ->registered(function (Application $app): void {
+        if (file_exists('/tmp')) {
+            $app->useStoragePath('/tmp/storage');
+        }
+    })
     ->create();
+
 
 
